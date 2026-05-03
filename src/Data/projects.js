@@ -10,8 +10,13 @@
   },
   */
 
-export const projects = [
-    {
-    title:"Not found"
+export const projects = [  {
+    id: 1,
+    title: "Error",
+    desc: "Error",
+    tech: ["Error"],
+    live: "",
+    github: "",
   },
+
   ];
