@@ -2,19 +2,19 @@ import React from "react";
 
 export const Footer = () => {
 
-  // ✅ Centralized social links (easy to manage)
+  // ntralized social links (easy to manage)
   const socials = [
-    { name: "GitHub", link: "https://github.com/yourusername" },
-    { name: "LinkedIn", link: "https://linkedin.com/in/yourusername" },
-    { name: "LeetCode", link: "https://leetcode.com/yourusername" },
+    { name: "GitHub", link: "https://github.com/Sunildharajiya" },
+    { name: "LinkedIn", link: "https://www.linkedin.com/in/sunil-dharajiya-69b185344" },
+   // { name: "LeetCode", link: "https://leetcode.com/yourusername" },
     { name: "X", link: "https://x.com/yourusername" },
-    { name: "Instagram", link: "https://instagram.com/yourusername" },
+    { name: "Instagram", link: "https://www.instagram.com/sunil_dharajiya__" },
   ];
 
   return (
     <footer className="relative bg-[#050505] border-t border-green-900/20 mt-20">
 
-      {/* 🔥 Top Glow Line */}
+      {/*  Top Glow Line */}
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-green-400 to-transparent opacity-40"></div>
 
       <div className="max-w-6xl mx-auto px-6 py-12 flex flex-col items-center gap-8">
