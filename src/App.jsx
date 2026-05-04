@@ -6,7 +6,7 @@ import { Layout } from "./Layout.jsx";
 const Index = lazy(() => import("./pages/index.jsx"));
 const Contact = lazy(() => import("./pages/Contact.jsx"));
 const Projects = lazy(() => import("./pages/Projects.jsx"));
-const Docs = lazy(() => import("./pages/Docs.jsx"));
+const Post = lazy(() => import("./pages/posts.jsx"));
 
 const Loader = () => (
   <div className="min-h-screen flex items-center justify-center text-green-400">
@@ -17,7 +17,7 @@ const Loader = () => (
 export const App = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,   // 🔥 common layout
+    element: <Layout />,   // common layout for every page.
     children: [
       {
         index: true,
@@ -44,10 +44,10 @@ export const App = createBrowserRouter([
         ),
       },
       {
-        path: "docs",
+        path: "post",
         element: (
           <Suspense fallback={<Loader />}>
-            <Docs />
+            <Post />
           </Suspense>
         ),
       },

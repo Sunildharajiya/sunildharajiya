@@ -1,7 +1,7 @@
 import React from "react";
-import { docs } from "./../Data/docs.js"
+import { post } from "./../Data/posts.js"
 
-const Docs = () => {
+const Post = () => {
   return (
     <div className="min-h-screen bg-[#050505] px-6 py-20">
 
@@ -15,21 +15,21 @@ const Docs = () => {
 
         {/* Heading */}
         <h1 className="text-3xl md:text-4xl font-semibold text-green-400 mb-6 text-center">
-          Documentation
+          POSTS
         </h1>
 
         {/* Subtitle */}
         <p className="text-gray-400 text-center mb-12">
-          Notes, guides, and learnings from my development journey.
+          guides,thoughts and learnings from my development journe.
         </p>
 
-        {/* Docs List */}
+        {/* post List */}
         <div className="flex flex-col gap-6">
 
-          {docs.map((doc, i) => (
+          {post.map((p, i) => (
             <a
               key={i}
-              href={doc.link}
+              href={p.link}
               className="block bg-[#0a0a0a] border border-green-900/20 rounded-xl p-6
               hover:border-green-400/30 hover:shadow-[0_0_20px_rgba(34,197,94,0.1)]
               transition-all duration-300"
@@ -38,16 +38,16 @@ const Docs = () => {
 
                 <div>
                   <h2 className="text-lg md:text-xl font-semibold text-white mb-2">
-                    {doc.title}
+                    {p.title}
                   </h2>
 
                   <p className="text-gray-400 text-sm">
-                    {doc.desc}
+                    {p.desc}
                   </p>
                 </div>
 
                 <span className="text-xs text-gray-500 whitespace-nowrap">
-                  {doc.date}
+                  {p.date}
                 </span>
 
               </div>
@@ -61,4 +61,4 @@ const Docs = () => {
   );
 };
 
-export default Docs;
+export default Post;

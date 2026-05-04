@@ -38,9 +38,17 @@ export const Projects = () => {
                   {project.desc}
                 </p>
 
-                <span className="text-green-400 text-xs block mb-4">
-                  {project.tech}
-                </span>
+                 <div className="flex flex-wrap gap-2 mb-4">
+                  {project.tech.map((t, idx) => (
+                    <span
+                      key={idx}
+                      className="px-2 py-1 text-xs rounded-md 
+                      bg-green-500/10 text-green-300 border border-green-500/20"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
 
                 {/* 🔥 Buttons */}
                 <div className="flex gap-2 flex-wrap">

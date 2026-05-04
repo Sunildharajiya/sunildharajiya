@@ -9,7 +9,7 @@
     */
 
 
-export const docs = [
+export const post = [
   {
     title:"Not found"
   },

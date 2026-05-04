@@ -39,7 +39,7 @@ const Projects = () => {
       src={project.image}
       alt={project.title}
       loading="lazy"
-      className="w-full h-44 object-cover 
+      className="object-cover 
       transition-transform duration-500 group-hover:scale-105"
     />
   </div>
