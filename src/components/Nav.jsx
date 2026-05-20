@@ -13,7 +13,7 @@ export const Nav = () => {
     { name: "Home", path: "/" },
     { name: "About", path: "/#about" },
     { name: "Projects", path: "/#projects" },
-    { name: "Docs", path: "/#docs" },
+    { name: "Notes", path: "/#notes" },
   ];
 
   return (

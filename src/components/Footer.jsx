@@ -6,8 +6,8 @@ export const Footer = () => {
   const socials = [
     { name: "GitHub", link: "https://github.com/Sunildharajiya" },
     { name: "LinkedIn", link: "https://www.linkedin.com/in/sunil-dharajiya-69b185344" },
-   // { name: "LeetCode", link: "https://leetcode.com/yourusername" },
-    { name: "X", link: "https://x.com/yourusername" },
+   { name: "LeetCode", link: "https://leetcode.com/Sunil_dharajiya" },
+    { name: "X", link: "https://x.com/@_sunil_d_" },
     { name: "Instagram", link: "https://www.instagram.com/sunil_dharajiya__" },
   ];
 

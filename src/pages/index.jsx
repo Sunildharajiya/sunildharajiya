@@ -4,8 +4,7 @@ import { useLocation } from "react-router-dom";
 import { Hero } from "./../components/Hero.jsx";
 import { About } from "./../components/About.jsx";
 import { Projects } from "./../components/projects.jsx";
-import { Post } from "./../components/Posts.jsx";
-
+import { Notes } from "./../components/Notes.jsx"
 const Index = () => {
   const location = useLocation();
 
@@ -37,9 +36,9 @@ const Index = () => {
       <div id="projects">
         <Projects />
       </div>
-
-      <div id="posts">
-        <Post />
+      
+      <div id="notes">
+        <Notes />
       </div>
     </>
   );
