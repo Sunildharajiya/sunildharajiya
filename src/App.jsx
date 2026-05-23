@@ -40,7 +40,7 @@ export const App = createBrowserRouter([
       },
 
       {
-        path: "contact",
+        path: "/contact",
         element: (
           <Suspense fallback={<Loader />}>
             <Contact />
@@ -49,7 +49,7 @@ export const App = createBrowserRouter([
       },
 
       {
-        path: "projects",
+        path: "/projects",
         element: (
           <Suspense fallback={<Loader />}>
             <Projects />
@@ -58,7 +58,7 @@ export const App = createBrowserRouter([
       },
 
       {
-        path: "Notes",
+        path: "/Notes/*",
         element: (
           <Suspense fallback={<Loader />}>
             <Notes />

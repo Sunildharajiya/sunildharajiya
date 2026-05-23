@@ -6,14 +6,17 @@ const Notes = () => {
   const [items, setItems] = useState([]);
   const [currentPath, setCurrentPath] = useState("");
   const [history, setHistory] = useState([]);
+
   const [content, setContent] = useState("");
   const [activeFile, setActiveFile] = useState(null);
+  const [filePath, setFilePath] = useState("");
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const owner = "SunilDharajiya";
   const repo = "Notes";
+  const branch = "main";
 
   // Fetch folders/files
   const fetchContents = async (path = "") => {
@@ -26,9 +29,7 @@ const Notes = () => {
       );
 
       if (!res.ok) {
-        throw new Error(
-          `GitHub API Error : ${res.status}`
-        );
+        throw new Error(`GitHub API Error : ${res.status}`);
       }
 
       const data = await res.json();
@@ -51,12 +52,12 @@ const Notes = () => {
     setLoading(false);
   };
 
-  // Initial fetch
+  // Initial Fetch
   useEffect(() => {
     fetchContents();
   }, []);
 
-  // Open markdown file
+  // Open Markdown File
   const openFile = async (file) => {
     if (!file.name.endsWith(".md")) return;
 
@@ -67,15 +68,19 @@ const Notes = () => {
       const res = await fetch(file.download_url);
 
       if (!res.ok) {
-        throw new Error(
-          `Unable to fetch markdown file`
-        );
+        throw new Error("Unable to fetch markdown file");
       }
 
       const text = await res.text();
 
       setContent(text);
       setActiveFile(file);
+
+      // Store current markdown directory
+      const pathParts = file.path.split("/");
+      pathParts.pop();
+
+      setFilePath(pathParts.join("/"));
 
     } catch (err) {
       console.log(err);
@@ -85,7 +90,7 @@ const Notes = () => {
     setLoading(false);
   };
 
-  // Open folder
+  // Open Folder
   const openFolder = (folder) => {
     setHistory((prev) => [...prev, currentPath]);
     fetchContents(folder.path);
@@ -113,35 +118,11 @@ const Notes = () => {
     return (
       <section className="min-h-screen bg-[#050505] flex items-center justify-center px-6">
 
-        <div
-          className="
-          relative w-full max-w-3xl
-          bg-[#0a0a0a]
-          border border-red-900/20
-          rounded-3xl
-          overflow-hidden
-          "
-        >
+        <div className="w-full max-w-3xl bg-[#0a0a0a] border border-red-900/20 rounded-3xl overflow-hidden">
 
-          {/* Top */}
-          <div
-            className="
-            px-6 py-5
-            border-b border-red-900/20
-            bg-red-500/5
-            flex items-center gap-4
-            "
-          >
+          <div className="px-6 py-5 border-b border-red-900/20 bg-red-500/5 flex items-center gap-4">
 
-            <div
-              className="
-              w-14 h-14 rounded-2xl
-              flex items-center justify-center
-              bg-red-500/10
-              border border-red-500/20
-              text-3xl
-              "
-            >
+            <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-red-500/10 border border-red-500/20 text-3xl">
               ⚠️
             </div>
 
@@ -157,38 +138,15 @@ const Notes = () => {
 
           </div>
 
-          {/* Error Body */}
           <div className="p-6">
 
-            <pre
-              className="
-              overflow-x-auto
-              bg-[#0d1117]
-              border border-[#30363d]
-              rounded-2xl
-              p-5
-              text-red-300
-              text-sm
-              leading-7
-              "
-            >
-              <code>
-                {error}
-              </code>
+            <pre className="overflow-x-auto bg-[#0d1117] border border-[#30363d] rounded-2xl p-5 text-red-300 text-sm leading-7">
+              <code>{error}</code>
             </pre>
 
             <button
               onClick={() => window.location.reload()}
-              className="
-              mt-6
-              px-5 py-3
-              rounded-xl
-              bg-red-500/10
-              border border-red-500/20
-              text-red-300
-              hover:bg-red-500/20
-              transition-all
-              "
+              className="mt-6 px-5 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 hover:bg-red-500/20 transition-all"
             >
               Reload
             </button>
@@ -196,36 +154,21 @@ const Notes = () => {
           </div>
 
         </div>
+
       </section>
     );
   }
 
-  // Loading
+  // Loading UI
   if (loading) {
     return (
       <section className="min-h-screen bg-[#050505] flex items-center justify-center px-6">
 
-        <div
-          className="
-          relative w-full max-w-2xl
-          bg-[#0a0a0a]
-          border border-green-900/20
-          rounded-3xl
-          p-10
-          "
-        >
+        <div className="w-full max-w-2xl bg-[#0a0a0a] border border-green-900/20 rounded-3xl p-10">
 
-          <div className="relative z-10 flex flex-col items-center gap-5">
+          <div className="flex flex-col items-center gap-5">
 
-            <div
-              className="
-              w-12 h-12
-              border-4 border-green-500/20
-              border-t-green-400
-              rounded-full
-              animate-spin
-              "
-            ></div>
+            <div className="w-12 h-12 border-4 border-green-500/20 border-t-green-400 rounded-full animate-spin"></div>
 
             <h2 className="text-2xl font-semibold text-green-400">
               Loading Notes
@@ -238,6 +181,7 @@ const Notes = () => {
           </div>
 
         </div>
+
       </section>
     );
   }
@@ -249,50 +193,19 @@ const Notes = () => {
 
         {/* Glow */}
         <div className="absolute inset-0 pointer-events-none">
-          <div
-            className="
-            absolute top-1/2 left-1/2
-            -translate-x-1/2 -translate-y-1/2
-            w-[700px] h-[600px]
-            bg-green-500/10
-            blur-3xl
-            rounded-full
-            "
-          ></div>
+
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[600px] bg-green-500/10 blur-3xl rounded-full"></div>
+
         </div>
 
-        <div
-          className="
-          relative z-10
-          w-full max-w-5xl
-          bg-[#0d1117]
-          border border-[#30363d]
-          rounded-2xl
-          overflow-hidden
-          "
-        >
+        <div className="relative z-10 w-full max-w-5xl bg-[#0d1117] border border-[#30363d] rounded-2xl overflow-hidden">
 
           {/* Topbar */}
-          <div
-            className="
-            sticky top-0 z-20
-            bg-[#161b22]/90
-            backdrop-blur-xl
-            border-b border-[#30363d]
-            px-5 py-4
-            flex items-center gap-4
-            "
-          >
+          <div className="sticky top-0 z-20 bg-[#161b22]/90 backdrop-blur-xl border-b border-[#30363d] px-5 py-4 flex items-center gap-4">
 
             <button
               onClick={goBack}
-              className="
-              px-4 py-2 rounded-lg
-              bg-[#21262d]
-              border border-[#30363d]
-              text-white
-              hover:bg-[#30363d]
-              "
+              className="px-4 py-2 rounded-lg bg-[#21262d] border border-[#30363d] text-white hover:bg-[#30363d]"
             >
               ← Back
             </button>
@@ -314,18 +227,35 @@ const Notes = () => {
           {/* Markdown */}
           <div className="px-4 md:px-8 py-8">
 
-            <article
-              className="
-              markdown-body
-              max-w-none
-              text-white
-              leading-7
-              "
-            >
+            <article className="markdown-body max-w-none text-white leading-7">
 
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
+
+                  // Images
+                  img: ({ src, alt }) => {
+
+                    let imageUrl = src;
+
+                    // Relative GitHub images
+                    if (
+                      src &&
+                      !src.startsWith("http")
+                    ) {
+                      imageUrl =
+                        `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${filePath}/${src}`;
+                    }
+
+                    return (
+                      <img
+                        src={imageUrl}
+                        alt={alt}
+                        className="rounded-2xl border border-[#30363d] my-8 w-full"
+                      />
+                    );
+                  },
+
                   h1: ({ children }) => (
                     <h1 className="text-4xl font-bold border-b border-[#30363d] pb-3 mb-6 text-white">
                       {children}
@@ -380,14 +310,7 @@ const Notes = () => {
                   ),
 
                   blockquote: ({ children }) => (
-                    <blockquote
-                      className="
-                      border-l-4 border-[#3fb950]
-                      pl-4 italic
-                      text-gray-400
-                      my-5
-                      "
-                    >
+                    <blockquote className="border-l-4 border-[#3fb950] pl-4 italic text-gray-400 my-5">
                       {children}
                     </blockquote>
                   ),
@@ -405,26 +328,13 @@ const Notes = () => {
                   ),
 
                   th: ({ children }) => (
-                    <th
-                      className="
-                      border border-[#30363d]
-                      bg-[#161b22]
-                      px-4 py-2
-                      text-left text-white
-                      "
-                    >
+                    <th className="border border-[#30363d] bg-[#161b22] px-4 py-2 text-left text-white">
                       {children}
                     </th>
                   ),
 
                   td: ({ children }) => (
-                    <td
-                      className="
-                      border border-[#30363d]
-                      px-4 py-2
-                      text-[#e6edf3]
-                      "
-                    >
+                    <td className="border border-[#30363d] px-4 py-2 text-[#e6edf3]">
                       {children}
                     </td>
                   ),
@@ -436,16 +346,7 @@ const Notes = () => {
                     // Inline Code
                     if (!className) {
                       return (
-                        <code
-                          className="
-                          bg-[#161b22]
-                          text-[#ff7b72]
-                          border border-[#30363d]
-                          px-1.5 py-0.5
-                          rounded-md
-                          text-sm
-                          "
-                        >
+                        <code className="bg-[#161b22] text-[#ff7b72] border border-[#30363d] px-1.5 py-0.5 rounded-md text-sm">
                           {text}
                         </code>
                       );
@@ -456,15 +357,7 @@ const Notes = () => {
                       <div className="relative my-6">
 
                         {/* Topbar */}
-                        <div
-                          className="
-                          flex items-center gap-2
-                          bg-[#161b22]
-                          border border-b-0 border-[#30363d]
-                          rounded-t-xl
-                          px-4 py-3
-                          "
-                        >
+                        <div className="flex items-center gap-2 bg-[#161b22] border border-b-0 border-[#30363d] rounded-t-xl px-4 py-3">
 
                           <div className="w-3 h-3 rounded-full bg-red-500"></div>
                           <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
@@ -473,24 +366,9 @@ const Notes = () => {
                         </div>
 
                         {/* Code */}
-                        <pre
-                          className="
-                          overflow-x-auto
-                          bg-[#0d1117]
-                          border border-[#30363d]
-                          rounded-b-xl
-                          p-5
-                          "
-                        >
+                        <pre className="overflow-x-auto bg-[#0d1117] border border-[#30363d] rounded-b-xl p-5">
 
-                          <code
-                            className="
-                            text-[#7ee787]
-                            text-[15px]
-                            leading-7
-                            font-mono
-                            "
-                          >
+                          <code className="text-[#7ee787] text-[15px] leading-7 font-mono">
                             {text}
                           </code>
 
@@ -505,50 +383,28 @@ const Notes = () => {
               </ReactMarkdown>
 
             </article>
+
           </div>
+
         </div>
+
       </section>
     );
   }
 
   // Explorer
   return (
-    <section
-      className="
-      relative min-h-screen
-      py-20 px-6
-      bg-[#050505]
-      flex justify-center
-      "
-    >
+    <section className="relative min-h-screen py-20 px-6 bg-[#050505] flex justify-center">
 
       {/* Glow */}
       <div className="absolute inset-0 pointer-events-none">
 
-        <div
-          className="
-          absolute top-1/2 left-1/2
-          -translate-x-1/2 -translate-y-1/2
-          w-[600px] h-[500px]
-          bg-green-500/10
-          blur-3xl
-          rounded-full
-          "
-        ></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[500px] bg-green-500/10 blur-3xl rounded-full"></div>
 
       </div>
 
       {/* Main */}
-      <div
-        className="
-        relative z-10
-        max-w-6xl w-full
-        bg-[#0a0a0a]
-        border border-green-900/20
-        rounded-3xl
-        p-8 md:p-10
-        "
-      >
+      <div className="relative z-10 max-w-6xl w-full bg-[#0a0a0a] border border-green-900/20 rounded-3xl p-8 md:p-10">
 
         {/* Header */}
         <div className="mb-10">
@@ -561,15 +417,7 @@ const Notes = () => {
             Browse folders and markdown files directly from GitHub.
           </p>
 
-          <div
-            className="
-            mt-5 inline-flex items-center gap-2
-            px-4 py-2 rounded-xl
-            bg-green-500/10
-            border border-green-500/20
-            text-green-300 text-sm
-            "
-          >
+          <div className="mt-5 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-green-500/10 border border-green-500/20 text-green-300 text-sm">
             📂 /{currentPath || "root"}
           </div>
 
@@ -579,13 +427,7 @@ const Notes = () => {
         {history.length > 0 && (
           <button
             onClick={goBack}
-            className="
-            mb-8 px-4 py-2 rounded-xl
-            border border-green-500/20
-            bg-green-500/10
-            text-green-300
-            hover:bg-green-500/20
-            "
+            className="mb-8 px-4 py-2 rounded-xl border border-green-500/20 bg-green-500/10 text-green-300 hover:bg-green-500/20"
           >
             ← Back
           </button>
@@ -631,29 +473,12 @@ const Notes = () => {
               >
 
                 {/* Glow */}
-                <div
-                  className="
-                  absolute inset-0
-                  opacity-0 group-hover:opacity-100
-                  transition-opacity duration-300
-                  bg-gradient-to-br
-                  from-green-500/5
-                  to-transparent
-                  "
-                ></div>
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br from-green-500/5 to-transparent"></div>
 
                 <div className="relative z-10 flex items-start gap-4">
 
                   {/* Icon */}
-                  <div
-                    className="
-                    w-14 h-14 rounded-2xl
-                    flex items-center justify-center
-                    bg-green-500/10
-                    border border-green-500/20
-                    text-2xl
-                    "
-                  >
+                  <div className="w-14 h-14 rounded-2xl flex items-center justify-center bg-green-500/10 border border-green-500/20 text-2xl">
                     {isFolder ? "📁" : "📄"}
                   </div>
 
@@ -688,15 +513,7 @@ const Notes = () => {
 
         {/* Empty */}
         {items.length === 0 && (
-          <div
-            className="
-            mt-10 text-center
-            border border-green-900/20
-            rounded-2xl
-            bg-green-500/5
-            py-16
-            "
-          >
+          <div className="mt-10 text-center border border-green-900/20 rounded-2xl bg-green-500/5 py-16">
 
             <h2 className="text-2xl font-semibold text-green-400">
               Empty Folder
@@ -710,6 +527,7 @@ const Notes = () => {
         )}
 
       </div>
+
     </section>
   );
 };
