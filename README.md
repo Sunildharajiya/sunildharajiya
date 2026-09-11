@@ -11,11 +11,11 @@ I enjoy turning ideas into functional web applications, with a particular intere
 
 <!-- STREAK BOARD & COMMIT GRAPH (BLACK & WHITE THEME) -->
 <!--  REPLACE 'YOUR_GITHUB_USERNAME' IN THE LINKS BELOW WITH YOUR ACTUAL USERNAME  -->
-<img src="https://herokuapp.com" alt="Sunil's GitHub Streak" />
+<img src="https://github.com/sunilDharajiya" alt="Sunil's GitHub Streak" />
 
 <br/>
 
-<img src="https://vercel.app" alt="Sunil's Commit Graph" width="100%" />
+<img src="https://github.com/sunilDharajiya" alt="Sunil's Commit Graph" width="100%" />
 
 </div>
 
